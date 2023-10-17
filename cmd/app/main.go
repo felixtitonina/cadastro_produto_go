@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/confluentinc/confluent-kafka-go/kafka"
@@ -36,7 +37,9 @@ func main() {
 	http.ListenAndServe(":3000", r)
 
 	msgChan := make(chan *kafka.Message)
-	go akafka.Consume([]string{"product"}, "localhost:9094", msgChan)
+	fmt.Println("msgChan")
+	fmt.Println(msgChan)
+	akafka.Consume([]string{"product"}, "localhost:9094", msgChan)
 
 	for msg := range msgChan {
 		dto := usecase.CreateProductInputDto{}
