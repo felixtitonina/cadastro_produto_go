@@ -2,6 +2,7 @@ package web
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/felixtitonina/go-esquenta/internal/usecase"
@@ -26,6 +27,7 @@ func (p *ProductHandlers) CreateProductHandler(w http.ResponseWriter, r *http.Re
 	var input usecase.CreateProductInputDto
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
+		fmt.Println(err)
 		w.WriteHeader((http.StatusBadRequest))
 		return
 	}

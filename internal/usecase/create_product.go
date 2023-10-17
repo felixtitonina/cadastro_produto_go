@@ -1,6 +1,10 @@
 package usecase
 
-import "github.com/felixtitonina/go-esquenta/internal/entity"
+import (
+	"fmt"
+
+	"github.com/felixtitonina/go-esquenta/internal/entity"
+)
 
 type CreateProductInputDto struct {
 	Name  string  `json:name`
@@ -24,6 +28,8 @@ func NewCreateProductsUseCase(productRepository entity.ProductRepository) *Creat
 func (u *CreateProductUseCase) Execute(input CreateProductInputDto) (*CreateProductOutputDto, error) {
 	product := entity.NewProduct(input.Name, input.Price)
 	err := u.ProductRepository.Create(product)
+	fmt.Println(product)
+	fmt.Println(err)
 	if err != nil {
 		return nil, err
 	}

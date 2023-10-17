@@ -1,0 +1,20 @@
+
+POST http://localhost:3000/products
+Content-Type: application/json
+
+{
+    "name": "my",
+    "price": 100
+}
+
+###
+
+GET http://localhost:3000/products
+Content-Type: application/json
+
+
+# create table products (id varchar(255), name varchar(255), price float)
+# CREATE TABLE `products`.`products` (
+#   `id` VARCHAR(255) NOT NULL,
+#   `name` VARCHAR(255) NULL,
+#   `price` FLOAT NULL;

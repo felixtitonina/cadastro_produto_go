@@ -17,6 +17,7 @@ import (
 func main() {
 	db, err := sql.Open("mysql", "root:mysql@tcp(localhost:3306)/products")
 	if err != nil {
+		println(err)
 		panic(err)
 	}
 
@@ -29,19 +30,19 @@ func main() {
 	productHandlers := web.NewProductHandlers(createProductUsecase, listProductsUsecase)
 
 	r := chi.NewRouter()
-	r.Post("/products", productHandlers.ListProductHandler)
+	r.Post("/products", productHandlers.CreateProductHandler)
 	r.Get("/products", productHandlers.ListProductHandler)
 
-	http.ListenAndServe(":4444", r)
+	http.ListenAndServe(":3000", r)
 
 	msgChan := make(chan *kafka.Message)
-	go akafka.Consume([]string{"products"}, "localhost:9094", msgChan)
+	go akafka.Consume([]string{"product"}, "localhost:9094", msgChan)
 
 	for msg := range msgChan {
 		dto := usecase.CreateProductInputDto{}
 		err := json.Unmarshal(msg.Value, &dto)
 		if err != nil {
-			// logar o erro
+			println(err)
 		}
 		_, err = createProductUsecase.Execute(dto)
 	}

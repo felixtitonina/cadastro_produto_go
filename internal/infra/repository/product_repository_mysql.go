@@ -17,7 +17,7 @@ func NewProductRepositoryMysql(db *sql.DB) *ProductRepositoryMysql {
 
 // função do tipo metodo
 func (r *ProductRepositoryMysql) Create(product *entity.Product) error {
-	_, err := r.DB.Exec("Insert into products (id, name, price) values (?,?,?,?)",
+	_, err := r.DB.Exec("Insert into products (id, name, price) values (?,?,?)",
 		product.ID, product.Name, product.Price)
 
 	if err != nil {
